@@ -9,3 +9,4 @@ sudo cpupower frequency-set -g performance
 
 # For 4G deployment only
 docker-compose -f 4g-volte-opensips-ims-deploy.yaml build
+docker-compose -f 4g-volte-opensips-ims-deploy.yaml up -d
