@@ -1,11 +1,11 @@
 version: '3'
 services:
-  oaignb:
+  oaienb:
     build:
-      context: oai
-      dockerfile: gnb_dockerfile
-    image: docker_oai_gnb
-    container_name: oaignb
+      context: ../oai
+      dockerfile: ../oai/enb_dockerfile
+    image: docker_oai_enb
+    container_name: oaienb
     stdin_open: true
     tty: true
     privileged: true
@@ -21,9 +21,9 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:
-      - .env
+      - ../.env
     expose:
-      - "38412/sctp"
+      - "36412/sctp"
       - "2152/udp"
     networks:
       default:

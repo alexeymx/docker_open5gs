@@ -1,28 +1,27 @@
 version: '3'
 services:
-  nr_gnb:
-    image: docker_ueransim
-    container_name: nr_gnb
+  srsenb_zmq:
+    image: docker_srslte
+    container_name: srsenb_zmq
     stdin_open: true
     tty: true
+    privileged: true
     volumes:
-      - ./ueransim:/mnt/ueransim
+      - ./srslte:/mnt/srslte
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:
-      - .env
+      - ../.env
     environment:
-      - COMPONENT_NAME=ueransim-gnb
+      - COMPONENT_NAME=enb_zmq
     expose:
-      - "38412/sctp"
+      - "36412/sctp"
       - "2152/udp"
-      - "4997/udp"
-    cap_add:
-      - NET_ADMIN
-    privileged: true
+      - "2000/tcp"
+      - "2001/tcp"
     networks:
       default:
-        ipv4_address: ${NR_GNB_IP}
+        ipv4_address: ${SRS_ENB_IP}
 networks:
   default:
     external:

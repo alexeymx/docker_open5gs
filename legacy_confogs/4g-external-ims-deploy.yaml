@@ -4,7 +4,7 @@ services:
     container_name: mongo
     command: --bind_ip 0.0.0.0
     env_file:
-      - .env
+      - ../.env
     volumes:
       - mongodbdata:/data/db
       - mongodbdata:/data/configdb
@@ -22,7 +22,7 @@ services:
     depends_on:
       - mongo
     env_file:
-      - .env
+      - ../.env
     environment:
       - COMPONENT_NAME=webui
     volumes:
@@ -40,7 +40,7 @@ services:
     image: docker_open5gs
     container_name: hss
     env_file:
-      - .env
+      - ../.env
     environment:
       - COMPONENT_NAME=hss
     volumes:
@@ -65,7 +65,7 @@ services:
       - upf
     container_name: sgwc
     env_file:
-      - .env
+      - ../.env
     environment:
       - COMPONENT_NAME=sgwc
     volumes:
@@ -86,7 +86,7 @@ services:
       - upf
     container_name: sgwu
     env_file:
-      - .env
+      - ../.env
     environment:
       - COMPONENT_NAME=sgwu
     volumes:
@@ -106,7 +106,7 @@ services:
     image: docker_open5gs
     container_name: smf
     env_file:
-      - .env
+      - ../.env
     environment:
       - COMPONENT_NAME=smf
       - DEPLOY_MODE=4G
@@ -133,7 +133,7 @@ services:
       - smf
     container_name: upf
     env_file:
-      - .env
+      - ../.env
     environment:
       - COMPONENT_NAME=upf
     volumes:
@@ -163,7 +163,7 @@ services:
       - osmomsc
     container_name: mme
     env_file:
-      - .env
+      - ../.env
     environment:
       - COMPONENT_NAME=mme
     volumes:
@@ -188,7 +188,7 @@ services:
     image: docker_open5gs
     container_name: pcrf
     env_file:
-      - .env
+      - ../.env
     environment:
       - COMPONENT_NAME=pcrf
     depends_on:
@@ -210,11 +210,11 @@ services:
       default:
         ipv4_address: ${PCRF_IP}
   dns:
-    build: ./dns
+    build: ../dns
     image: docker_dns
     container_name: dns
     env_file:
-      - .env
+      - ../.env
     volumes:
       - ./dns:/mnt/dns
       - /etc/timezone:/etc/timezone:ro
@@ -225,11 +225,11 @@ services:
       default:
         ipv4_address: ${DNS_IP}
   mysql:
-    build: ./mysql
+    build: ../mysql
     image: docker_mysql
     container_name: mysql
     env_file:
-      - .env
+      - ../.env
     volumes:
       - dbdata:/var/lib/mysql
       - /etc/timezone:/etc/timezone:ro
@@ -240,7 +240,7 @@ services:
       default:
         ipv4_address: ${MYSQL_IP}
   pyhss:
-    build: ./pyhss
+    build: ../pyhss
     image: docker_pyhss
     container_name: pyhss
     dns: ${DNS_IP}
@@ -250,7 +250,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:
-      - .env
+      - ../.env
     depends_on:
       - dns
       - mysql
@@ -265,7 +265,7 @@ services:
       default:
         ipv4_address: ${PYHSS_IP}
   osmomsc:
-    build: ./osmomsc
+    build: ../osmomsc
     image: docker_osmomsc
     container_name: osmomsc
     volumes:
@@ -273,7 +273,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:
-      - .env
+      - ../.env
     environment:
       - COMPONENT_NAME=osmomsc
     depends_on:
@@ -285,7 +285,7 @@ services:
       default:
         ipv4_address: ${OSMOMSC_IP}
   osmohlr:
-    build: ./osmohlr
+    build: ../osmohlr
     image: docker_osmohlr
     container_name: osmohlr
     volumes:
@@ -293,7 +293,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:
-      - .env
+      - ../.env
     environment:
       - COMPONENT_NAME=osmohlr
     expose:
@@ -302,11 +302,11 @@ services:
       default:
         ipv4_address: ${OSMOHLR_IP}
   metrics:
-    build: ./metrics
+    build: ../metrics
     image: docker_metrics
     container_name: metrics
     env_file:
-      - .env
+      - ../.env
     volumes:
       - ./metrics:/mnt/metrics
       - /etc/timezone:/etc/timezone:ro
@@ -322,7 +322,7 @@ services:
     image: grafana/grafana:11.3.0
     container_name: grafana
     env_file:
-      - .env
+      - ../.env
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafana/:/etc/grafana/provisioning/

@@ -4,7 +4,7 @@ services:
     container_name: mongo
     command: --bind_ip 0.0.0.0
     env_file:
-      - .env
+      - ../.env
     volumes:
       - mongodbdata:/data/db
       - mongodbdata:/data/configdb
@@ -22,7 +22,7 @@ services:
     depends_on:
       - mongo
     env_file:
-      - .env
+      - ../.env
     environment:
       - COMPONENT_NAME=webui
     volumes:
@@ -40,7 +40,7 @@ services:
     image: docker_open5gs
     container_name: nrf
     env_file:
-      - .env
+      - ../.env
     environment:
       - COMPONENT_NAME=nrf
     volumes:
@@ -59,7 +59,7 @@ services:
       - nrf
     container_name: scp
     env_file:
-      - .env
+      - ../.env
     environment:
       - COMPONENT_NAME=scp
     volumes:
@@ -79,7 +79,7 @@ services:
       - scp
     container_name: ausf
     env_file:
-      - .env
+      - ../.env
     environment:
       - COMPONENT_NAME=ausf
     volumes:
@@ -100,7 +100,7 @@ services:
       - mongo
     container_name: udr
     env_file:
-      - .env
+      - ../.env
     environment:
       - COMPONENT_NAME=udr
     volumes:
@@ -120,7 +120,7 @@ services:
       - scp
     container_name: udm
     env_file:
-      - .env
+      - ../.env
     environment:
       - COMPONENT_NAME=udm
     volumes:
@@ -141,7 +141,7 @@ services:
       - amf
     container_name: smf
     env_file:
-      - .env
+      - ../.env
     environment:
       - COMPONENT_NAME=smf
       - DEPLOY_MODE=5G
@@ -172,7 +172,7 @@ services:
       - smf
     container_name: upf
     env_file:
-      - .env
+      - ../.env
     environment:
       - COMPONENT_NAME=upf
     volumes:
@@ -207,7 +207,7 @@ services:
       - bsf
     container_name: amf
     env_file:
-      - .env
+      - ../.env
     environment:
       - COMPONENT_NAME=amf
     volumes:
@@ -232,7 +232,7 @@ services:
       - mongo
     container_name: pcf
     env_file:
-      - .env
+      - ../.env
     environment:
       - COMPONENT_NAME=pcf
     volumes:
@@ -254,7 +254,7 @@ services:
       - mongo
     container_name: bsf
     env_file:
-      - .env
+      - ../.env
     environment:
       - COMPONENT_NAME=bsf
     volumes:
@@ -275,7 +275,7 @@ services:
       - mongo
     container_name: nssf
     env_file:
-      - .env
+      - ../.env
     environment:
       - COMPONENT_NAME=nssf
     volumes:
@@ -289,11 +289,11 @@ services:
       default:
         ipv4_address: ${NSSF_IP}
   metrics:
-    build: ./metrics
+    build: ../metrics
     image: docker_metrics
     container_name: metrics
     env_file:
-      - .env
+      - ../.env
     volumes:
       - ./metrics:/mnt/metrics
       - /etc/timezone:/etc/timezone:ro
@@ -309,7 +309,7 @@ services:
     image: grafana/grafana:11.3.0
     container_name: grafana
     env_file:
-      - .env
+      - ../.env
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafana/:/etc/grafana/provisioning/
