@@ -162,7 +162,8 @@ class GSUPServer:
             await writer.wait_closed()
             logger.info(f'Connection closed for {addr}')
 
-    async def process_message(self, message: bytes, reader: asyncio.StreamReader, writer: asyncio.StreamWriter) -> bytes:
+    async def process_message(self, message: bytes, reader: asyncio.StreamReader,
+                              writer: asyncio.StreamWriter) -> bytes:
         """Process incoming GSUP message and generate response."""
         try:
             msg_type, ies = GSUPCodec.decode_message(message)
@@ -170,6 +171,10 @@ class GSUPServer:
             if msg_type == self.MSG_UPDATE_LOCATION_REQUEST:
                 logger.debug(f"Received Update Location Request")
                 return await self.handle_update_location_request(ies, reader, writer)
+            elif msg_type == self.MSG_UPDATE_LOCATION_RESULT:
+                logger.debug(f"Received Update Location Result")
+                # Handle Update Location Result if needed
+                return None
             elif msg_type == self.MSG_INSERT_DATA_RESULT:
                 logger.debug(f"Received Insert Data Result")
                 return await self.handle_insert_data_result(ies)
