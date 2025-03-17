@@ -41,8 +41,8 @@ class GSUPServer:
         
         # GSUP Message Types from specification
         self.MSG_UPDATE_LOCATION_REQUEST = 0x04
-        self.MSG_UPDATE_LOCATION_RESULT = 0x06
-        self.MSG_UPDATE_LOCATION_ERROR = 0x05
+        self.MSG_UPDATE_LOCATION_RESULT = 0x05
+        self.MSG_UPDATE_LOCATION_ERROR = 0x06
         
         self.MSG_SEND_AUTH_INFO_REQUEST = 0x08
         self.MSG_SEND_AUTH_INFO_RESULT = 0x0A
@@ -152,7 +152,7 @@ class GSUPServer:
 
                 else:
                     # This is a GSUP message wrapped in IPA
-                    logger.debug(f"Processing GSUP message wrapped in IPA")
+                    logger.debug(f"Processing GSUP message")
                     response = await self.process_message(payload, reader, writer)
                     if response:
                         # Wrap GSUP response in IPA header
@@ -180,6 +180,14 @@ class GSUPServer:
             elif msg_type == self.MSG_UPDATE_LOCATION_RESULT:
                 logger.debug(f"Received Update Location Result")
                 # Handle Update Location Result if needed
+                # Handle Update Location Result
+                imsi = ies.get(IEType.IMSI, b'').decode('ascii')
+                response_ies = {
+                    IEType.IMSI: imsi.encode('ascii')
+                }
+                response_message = GSUPCodec.encode_message(self.MSG_UPDATE_LOCATION_RESULT, response_ies)
+                logger.debug(f"Sending Update Location Result: {response_message}")
+
                 return None
             elif msg_type == self.MSG_INSERT_DATA_RESULT:
                 logger.debug(f"Received Insert Data Result")
