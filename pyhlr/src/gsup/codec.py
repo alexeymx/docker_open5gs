@@ -45,6 +45,9 @@ class GSUPCodec:
     def decode_message(data: bytes) -> tuple:
         """Decode a GSUP message from bytes into message type and IEs."""
         header = gsup_header.parse(data[:3])
+        logger.debug(f"Decoding GSUP message: {data}")
+        logger.debug(f"Decoding GSUP header: {header}")
+
         message_type = header.message_type
         length = header.length
         
