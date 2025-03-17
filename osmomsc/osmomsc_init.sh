@@ -31,9 +31,10 @@
 cp /mnt/osmomsc/osmo-msc.cfg /etc/osmocom
 
 sed -i 's|OSMOMSC_IP|'$OSMOMSC_IP'|g' /etc/osmocom/osmo-msc.cfg
-# sed -i 's|OSMOHLR_IP|'$OSMOHLR_IP'|g' /etc/osmocom/osmo-msc.cfg
 
-sed -i 's|PYHLR_IP|'$PYHLR_IP'|g' /etc/osmocom/osmo-msc.cfg
+sed -i 's|OSMOHLR_IP|'$OSMOHLR_IP'|g' /etc/osmocom/osmo-msc.cfg
+
+#sed -i 's|PYHLR_IP|'$PYHLR_IP'|g' /etc/osmocom/osmo-msc.cfg
 
 
 
