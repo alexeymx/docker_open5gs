@@ -440,7 +440,6 @@ services:
       - COMPONENT_NAME=sgs
     expose:
       - "29118/tcp"
-
     networks:
       default:
         ipv4_address: ${SGS_IP}

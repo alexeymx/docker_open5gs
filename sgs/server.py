@@ -320,8 +320,7 @@ def sgs_decode(buffer):
 
         return decode
     except Exception as e:
-        traceback.print_exc()
-        logging.error(f"Error decoding message: {e}")
+
         return decode
 
 
