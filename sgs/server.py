@@ -117,6 +117,10 @@ def handle_decode(decode):  # MME to MSS: Only processes messages that need answ
     global session_dict
 
     answer_list = [None]
+    try:
+        decode[0]
+    except:
+        return answer_list
 
     if decode[0] == 9:  # location-update-request
 
