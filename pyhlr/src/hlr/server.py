@@ -133,7 +133,7 @@ class GSUPServer:
                 if proto == IPA_PROTO:
                     # Handle IPA messages
                     msg_type = payload[0] if payload else None
-                    logger.debug(f"Received IPA message type: {msg_type:02x}")
+                    logger.debug(f"upa Received IPA message type: {msg_type:02x}")
                     
                     if msg_type == CCM_PING:
                         logger.info("Received PING, sending PONG")
