@@ -14,6 +14,7 @@ import struct
 import time
 import select
 import aiohttp
+import traceback
 import asyncio
 from optparse import OptionParser
 import logging
@@ -304,15 +305,21 @@ def handle_send(message):
 def sgs_decode(buffer):
     decode = {}
 
-    decode[0] = buffer[0]
-    pointer = 1
-    while pointer < len(buffer):
-        if buffer[
-            pointer] not in decode:  # just catch new LAI (first occurrence). old LAI uses same Information Element ID but is not needed
-            decode[buffer[pointer]] = buffer[pointer:pointer + 2 + buffer[pointer + 1]]
-        pointer += 2 + buffer[pointer + 1]
+    try:
+        decode[0] = buffer[0]
+        pointer = 1
+        while pointer < len(buffer):
+            if buffer[
+                pointer] not in decode:  # just catch new LAI (first occurrence). old LAI uses same Information Element ID but is not needed
+                decode[buffer[pointer]] = buffer[pointer:pointer + 2 + buffer[pointer + 1]]
+            pointer += 2 + buffer[pointer + 1]
 
-    return decode
+        return decode
+    except Exception as e:
+        traceback.print_exc()
+        logging.error(f"Error decoding message: {e}")
+        return decode
+
 
 
 
