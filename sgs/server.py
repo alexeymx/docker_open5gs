@@ -171,6 +171,8 @@ def handle_decode(decode):  # MME to MSS: Only processes messages that need answ
 
     elif decode[0] == 8:  # sms
         if 1 in decode and 22 in decode:
+            logging.debug("sms %s",  decode)
+
             if decode[22][3:4] != b'\x04' and decode[22][3:4] != b'\x10':
                 answer = b'\x07'
                 answer += decode[1]
