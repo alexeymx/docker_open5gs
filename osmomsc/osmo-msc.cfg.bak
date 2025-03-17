@@ -42,7 +42,7 @@ sgs
  vlr-name vlr.THREEGPP_REALM
 hlr
  ! IP address of the remote HLR:
- remote-ip PYHLR_IP
+ remote-ip OSMOHLR_IP
  ! default port is 4222, optionally configurable by:
  remote-port 4222
 smpp

@@ -1,0 +1,5 @@
+asyncio>=3.4.3
+httpx>=0.24.0
+construct>=2.10.68  # For binary protocol handling
+pydantic>=1.8.0,<2.0.0
+python-dotenv>=0.19.0 

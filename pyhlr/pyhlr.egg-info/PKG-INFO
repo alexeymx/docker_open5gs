@@ -1,0 +1,19 @@
+Metadata-Version: 2.2
+Name: pyhlr
+Version: 0.1.0
+Summary: HLR (Home Location Register) service with GSUP protocol support
+Author: Your Name
+Author-email: your.email@example.com
+Keywords: hlr,gsup,mobile,telecom
+Requires-Python: >=3.7
+Requires-Dist: asyncio>=3.4.3
+Requires-Dist: httpx>=0.24.0
+Requires-Dist: construct>=2.10.68
+Requires-Dist: pydantic<2.0.0,>=1.8.0
+Requires-Dist: python-dotenv>=0.19.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: keywords
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
