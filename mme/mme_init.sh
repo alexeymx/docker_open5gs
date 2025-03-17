@@ -45,9 +45,16 @@ sed -i 's|SMF_IP|'$SMF_IP'|g' install/etc/open5gs/mme.yaml
 sed -i 's|MAX_NUM_UE|'$MAX_NUM_UE'|g' install/etc/open5gs/mme.yaml
 sed -i 's|MME_IP|'$MME_IP'|g' install/etc/freeDiameter/mme.conf
 sed -i 's|HSS_IP|'$HSS_IP'|g' install/etc/freeDiameter/mme.conf
+
+sed -i 's|SGS_IP|'$SGS_IP'|g' install/etc/open5gs/mme.yaml
+
+
+
+
 sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' install/etc/freeDiameter/mme.conf
 sed -i 's|LD_LIBRARY_PATH|'$LD_LIBRARY_PATH'|g' install/etc/freeDiameter/mme.conf
 sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' install/etc/freeDiameter/make_certs.sh
+
 
 # Generate TLS certificates
 ./install/etc/freeDiameter/make_certs.sh install/etc/freeDiameter

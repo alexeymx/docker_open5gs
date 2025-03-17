@@ -425,6 +425,23 @@ services:
       default:
         ipv4_address: ${OSMOMSC_IP}
 
+  sgs:
+    build: ./sgs
+    image: docker_sgs
+    container_name: sgs
+    volumes:
+      - ./sgs:/mnt/sgs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    environment:
+      - COMPONENT_NAME=sgs
+    expose:
+      - "29118/tcp"
+    networks:
+      default:
+        ipv4_address: ${SGS_IP}
 
   osmohlr:
     build: ./osmohlr

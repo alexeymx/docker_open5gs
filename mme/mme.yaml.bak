@@ -21,7 +21,7 @@ mme:
           - address: SMF_IP
     sgsap:
       client:
-        - address: SGS_IP
+        - address: OSMOMSC_IP
           local_address: MME_IP
           map:
             tai:
