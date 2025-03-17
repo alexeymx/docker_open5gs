@@ -165,7 +165,7 @@ services:
       - sgwu
       - smf
       - upf
-      - osmomsc
+      #- osmomsc
     container_name: mme
     env_file:
       - .env
@@ -404,26 +404,27 @@ services:
     networks:
       default:
         ipv4_address: ${SMSC_IP}
-  osmomsc:
-    build: ./osmomsc
-    image: docker_osmomsc
-    container_name: osmomsc
-    volumes:
-      - ./osmomsc:/mnt/osmomsc
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    env_file:
-      - .env
-    environment:
-      - COMPONENT_NAME=osmomsc
-    depends_on:
-      - osmohlr
-    expose:
-      - "29118/sctp"
-      - "2775/tcp"
-    networks:
-      default:
-        ipv4_address: ${OSMOMSC_IP}
+
+  #osmomsc:
+  #  build: ./osmomsc
+  #  image: docker_osmomsc
+  #  container_name: osmomsc
+  #  volumes:
+  #    - ./osmomsc:/mnt/osmomsc
+  #    - /etc/timezone:/etc/timezone:ro
+  #    - /etc/localtime:/etc/localtime:ro
+  #  env_file:
+  #    - .env
+  #  environment:
+  #    - COMPONENT_NAME=osmomsc
+  #  depends_on:
+  #    - osmohlr
+  #  expose:
+  #    - "29118/sctp"
+  #    - "2775/tcp"
+  #  networks:
+  #    default:
+  #      ipv4_address: ${OSMOMSC_IP}
 
   sgs:
     build: ./sgs
@@ -443,23 +444,23 @@ services:
       default:
         ipv4_address: ${SGS_IP}
 
-  osmohlr:
-    build: ./osmohlr
-    image: docker_osmohlr
-    container_name: osmohlr
-    volumes:
-      - ./osmohlr:/mnt/osmohlr
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    env_file:
-      - .env
-    environment:
-      - COMPONENT_NAME=osmohlr
-    expose:
-      - "4222/tcp"
-    networks:
-      default:
-        ipv4_address: ${OSMOHLR_IP}
+  #osmohlr:
+  #  build: ./osmohlr
+  #  image: docker_osmohlr
+  #  container_name: osmohlr
+  #  volumes:
+  #    - ./osmohlr:/mnt/osmohlr
+  #    - /etc/timezone:/etc/timezone:ro
+  #    - /etc/localtime:/etc/localtime:ro
+  #  env_file:
+  #    - .env
+  #  environment:
+  #    - COMPONENT_NAME=osmohlr
+  #  expose:
+  #    - "4222/tcp"
+  #  networks:
+  #    default:
+  #      ipv4_address: ${OSMOHLR_IP}
   metrics:
     build: ./metrics
     image: docker_metrics

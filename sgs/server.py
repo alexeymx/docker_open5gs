@@ -13,6 +13,8 @@ import socket
 import struct
 import time
 import select
+import aiohttp
+import asyncio
 from optparse import OptionParser
 import logging
 
@@ -372,6 +374,30 @@ def main():
 
     server.close()
 
+async def send_sms(current_user, message):
+    recipient_phone = message.recipient_phone.replace('+', '').replace(' ', '')
+
+    # Prepare request payload
+    payload = {
+        "cid": current_user.phone_number,
+        "body": message.content,
+        "to": [recipient_phone],
+        "encoding": "UCS2"
+    }
+
+    # Send message via external API
+    async with aiohttp.ClientSession() as session:
+        async with session.post(
+            "https://smsc-api.vinoc.mx/api/v3/messages/send",
+            json=payload,
+            headers={
+                "Authorization": f"Bearer {settings.SMSC_API_TOKEN}",
+                "Content-Type": "application/json",
+                "accept": "application/json"
+            }
+        ) as response:
+            response_data = await response.json()
+            return response_data
 
 if __name__ == "__main__":
     main()
