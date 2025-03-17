@@ -429,11 +429,6 @@ services:
   sgs:
     build: ./sgs
     image: docker_sgs
-    container_name: sgs
-    volumes:
-      - ./sgs:/mnt/sgs
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
     environment:
