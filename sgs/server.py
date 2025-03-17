@@ -114,7 +114,6 @@ def handle_decode(decode):  # MME to MSS: Only processes messages that need answ
     global session_dict
 
     answer_list = [None]
-    logging.debug("handle_decode", decode)
 
     if decode[0] == 9:  # location-update-request
 
@@ -314,12 +313,6 @@ def sgs_decode(buffer):
     return decode
 
 
-def Menu():
-    os.system('clear')
-    print(
-        "Choose one of the options:\n\n\t1. SMS Paging\n\t2. CS Paging\n\t3. Send SMS\n\t4. Send Alert\n\t5. Send Reset\n\n")
-    print("\tq. Quit\n")
-
 
 def main():
     global server, session_dict
@@ -356,7 +349,6 @@ def main():
     socket_list = [sys.stdin, client]
 
     while True:
-        Menu()
         read_sockets, write_sockets, error_sockets = select.select(socket_list, [], [])
 
         for sock in read_sockets:
