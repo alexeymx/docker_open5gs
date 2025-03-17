@@ -142,18 +142,17 @@ class GSUPServer:
                     elif msg_type == CCM_ID_ACK:
                         logger.info("Received Identity ACK")
                         continue
-                    
-                    else:
-                        # This is a GSUP message wrapped in IPA
-                        logger.debug(f"Processing GSUP message wrapped in IPA")
-                        response = await self.process_message(payload, reader, writer)
-                        if response:
-                            # Wrap GSUP response in IPA header
-                            ipa_response = self._create_ipa_header(len(response)) + response
-                            writer.write(ipa_response)
-                            await writer.drain()
+
+
                 else:
-                    logger.warning(f"Received message with unknown protocol: {proto:02x}")
+                    # This is a GSUP message wrapped in IPA
+                    logger.debug(f"Processing GSUP message wrapped in IPA")
+                    response = await self.process_message(payload, reader, writer)
+                    if response:
+                        # Wrap GSUP response in IPA header
+                        ipa_response = self._create_ipa_header(len(response)) + response
+                        writer.write(ipa_response)
+                        await writer.drain()
 
         except Exception as e:
             logger.error(f'Error handling connection: {e}')
@@ -169,19 +168,19 @@ class GSUPServer:
             msg_type, ies = GSUPCodec.decode_message(message)
 
             if msg_type == self.MSG_UPDATE_LOCATION_REQUEST:
-                logger.info(f"Received Update Location Request")
+                logger.debug(f"Received Update Location Request")
                 return await self.handle_update_location_request(ies, reader, writer)
             elif msg_type == self.MSG_INSERT_DATA_RESULT:
-                logger.info(f"Received Insert Data Result")
+                logger.debug(f"Received Insert Data Result")
                 return await self.handle_insert_data_result(ies)
             elif msg_type == self.MSG_SEND_AUTH_INFO_REQUEST:
-                logger.info(f"Received Send Authentication Info Request")
+                logger.debug(f"Received Send Authentication Info Request")
                 return await self.handle_auth_info_request(ies)
             elif msg_type == self.MSG_SEND_SUBSCRIBER_DATA_REQUEST:
-                logger.info(f"Received Send Subscriber Data Request")
+                logger.debug(f"Received Send Subscriber Data Request")
                 return await self.handle_subscriber_data_request(ies)
             elif msg_type == self.MSG_SEND_ROUTING_INFO_FOR_SM_REQUEST:
-                logger.info(f"Received Send Routing Info for SM Request")
+                logger.debug(f"Received Send Routing Info for SM Request")
                 return await self.handle_routing_info_for_sm_request(ies)
             else:
                 logger.warning(f'Unsupported message type: {msg_type:02x}')

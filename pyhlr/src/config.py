@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     AUTH_SERVICE_TIMEOUT: int = int(os.getenv('AUTH_SERVICE_TIMEOUT', '30'))
     
     # Logging
-    LOG_LEVEL: str = os.getenv('LOG_LEVEL', 'INFO')
+    LOG_LEVEL: str = os.getenv('LOG_LEVEL', 'DEBUG')
     
     class Config:
         case_sensitive = True
