@@ -101,6 +101,8 @@ services:
       - "2152/udp"
     ports:
       - "2152:2152/udp"
+
+    privileged: true
     networks:
       default:
         ipv4_address: ${SGWU_IP}
