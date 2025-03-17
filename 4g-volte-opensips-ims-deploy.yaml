@@ -424,23 +424,7 @@ services:
     networks:
       default:
         ipv4_address: ${OSMOMSC_IP}
-  pyhlr:
-    build: ./pyhlr
-    image: docker_pyhlr
-    container_name: pyhlr
-    volumes:
-      - ./pyhlr:/mnt/pyhlr
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    env_file:
-      - .env
-    environment:
-      - COMPONENT_NAME=pyhlr
-    expose:
-      - "4222/tcp"
-    networks:
-      default:
-        ipv4_address: ${PYHLR_IP}
+
 
   osmohlr:
     build: ./osmohlr
