@@ -441,8 +441,6 @@ services:
     expose:
       - "29118/tcp"
 
-    restart: on-failure
-
     networks:
       default:
         ipv4_address: ${SGS_IP}
