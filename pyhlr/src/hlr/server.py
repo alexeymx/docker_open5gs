@@ -119,8 +119,14 @@ class GSUPServer:
                 length = int.from_bytes(header[:2], 'big')
                 proto = header[2]
 
+                logger.debug(f"Received header: Length: {length}, Protocol: {proto}")
+
+
                 # Read payload
                 payload = await reader.read(length)
+
+                logger.debug(f"Received payload: {payload}")
+
                 if not payload:
                     break
 
