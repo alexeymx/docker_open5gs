@@ -4,7 +4,7 @@ services:
     container_name: mongo
     command: --bind_ip 0.0.0.0
     env_file:
-      - .env
+      - .env-min
     volumes:
       - mongodbdata:/data/db
       - mongodbdata:/data/configdb
@@ -22,7 +22,7 @@ services:
     depends_on:
       - mongo
     env_file:
-      - .env
+      - .env-min
     environment:
       - COMPONENT_NAME=webui
     volumes:
@@ -40,7 +40,7 @@ services:
     image: docker_open5gs
     container_name: hss
     env_file:
-      - .env
+      - .env-min
     environment:
       - COMPONENT_NAME=hss
     volumes:
@@ -66,7 +66,7 @@ services:
     image: docker_dns
     container_name: dns
     env_file:
-      - .env
+      - .env-min
     volumes:
       - ./dns:/mnt/dns
       - /etc/timezone:/etc/timezone:ro
@@ -82,7 +82,7 @@ services:
     container_name: rtpengine
     privileged: true
     env_file:
-      - .env
+      - .env-min
     volumes:
       - ./rtpengine:/mnt/rtpengine
       - /etc/timezone:/etc/timezone:ro
@@ -110,7 +110,7 @@ services:
     image: docker_mysql
     container_name: mysql
     env_file:
-      - .env
+      - .env-min
     volumes:
       - dbdata:/var/lib/mysql
       - /etc/timezone:/etc/timezone:ro
@@ -131,7 +131,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:
-      - .env
+      - .env-min
     depends_on:
       - dns
       - mysql
@@ -154,7 +154,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:
-      - .env
+      - .env-min
     environment:
       - COMPONENT_NAME=icscf
     depends_on:
@@ -178,7 +178,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:
-      - .env
+      - .env-min
     environment:
       - COMPONENT_NAME=scscf
     depends_on:
@@ -205,7 +205,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:
-      - .env
+      - .env-min
     environment:
       - COMPONENT_NAME=pcscf
       - DEPLOY_MODE=4G
@@ -237,7 +237,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:
-      - .env
+      - .env-min
     environment:
       - COMPONENT_NAME=smsc
     depends_on:
@@ -254,7 +254,7 @@ services:
     build: ./sgs
     image: docker_sgs
     env_file:
-      - .env
+      - .env-min
     environment:
       - COMPONENT_NAME=sgs
     expose:
@@ -269,7 +269,7 @@ services:
     image: docker_metrics
     container_name: metrics
     env_file:
-      - .env
+      - .env-min
     volumes:
       - ./metrics:/mnt/metrics
       - /etc/timezone:/etc/timezone:ro
@@ -283,7 +283,7 @@ services:
     image: grafana/grafana:11.3.0
     container_name: grafana
     env_file:
-      - .env
+      - .env-min
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafana/:/etc/grafana/provisioning/
