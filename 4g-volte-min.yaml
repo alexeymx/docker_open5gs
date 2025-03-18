@@ -274,8 +274,8 @@ services:
       - ./metrics:/mnt/metrics
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-    ports:
-      - "9090:9090/tcp"
+    #ports:
+    #  - "9090:9090/tcp"
     networks:
       default:
         ipv4_address: ${METRICS_IP}
