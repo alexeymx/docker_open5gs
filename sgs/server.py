@@ -18,6 +18,7 @@ import traceback
 import asyncio
 from optparse import OptionParser
 import logging
+import binascii
 
 from binascii import hexlify, unhexlify
 
@@ -112,6 +113,31 @@ def gsm_encode(plaintext):
 
     return splitbytes(binary2bytes(res)), spare_bits
 
+def decode_bcd(bcd_bytes):
+    """Convert BCD-encoded bytes to a string (e.g., IMSI or phone numbers)."""
+    return "".join(f"{(b & 0x0F)}{(b >> 4) & 0x0F}" for b in bcd_bytes).lstrip("f")  # Remove padding
+
+
+def parse_tpdu(tpdu_bytes):
+    """Parses a GSM 03.40 TPDU message (SMS-SUBMIT)."""
+    tp_mti = tpdu_bytes[0] & 0x03  # Extract Message Type Indicator
+    tp_pid = tpdu_bytes[1]  # Protocol Identifier
+    tp_udl = tpdu_bytes[2]  # User-Data Length
+    tp_user_data = tpdu_bytes[3:3 + tp_udl]  # Extract message content
+
+    # Attempt to decode SMS content
+    try:
+        sms_text = tp_user_data.decode("ascii").strip()
+    except UnicodeDecodeError:
+        sms_text = binascii.hexlify(tp_user_data).decode()  # Raw hex if decoding fails
+
+    return {
+        "TP-MTI": tp_mti,
+        "TP-PID": tp_pid,
+        "TP-UDL": tp_udl,
+        "SMS Text": sms_text
+    }
+
 
 def handle_decode(decode):  # MME to MSS: Only processes messages that need answer
     global session_dict
@@ -172,6 +198,18 @@ def handle_decode(decode):  # MME to MSS: Only processes messages that need answ
     elif decode[0] == 8:  # sms
         if 1 in decode and 22 in decode:
             logging.debug("sms %s",  decode)
+            imsi = decode_bcd(decode[1])  # Decode IMSI
+            sms_hex = binascii.hexlify(decode[22]).decode()  # Convert NAS container (SMS TPDU) to hex
+
+            raw_data = decode[22]
+
+            start_index = raw_data.index(b'\x16') + 2  # Skip Element ID and Length
+            tpdu_bytes = raw_data[start_index:]  # Extract TPDU
+
+            parsed_tpdu = parse_tpdu(tpdu_bytes)
+
+            logging.debug("SMS Received: IMSI=%s, TPDU=%s %s", imsi, sms_hex, parsed_tpdu)
+
 
             if decode[22][3:4] != b'\x04' and decode[22][3:4] != b'\x10':
                 answer = b'\x07'

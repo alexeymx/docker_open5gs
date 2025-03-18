@@ -12,7 +12,7 @@ upf:
         - address: UPF_IP
       client:
         smf:
-          - address: SMF_IP
+          - address: SMF_IP # CHECK IT
     gtpu:
       server:
         - address: UPF_IP
