@@ -144,19 +144,19 @@ services:
     networks:
       default:
         ipv4_address: ${PYHSS_IP}
+
   icscf:
-    image: opensips/opensips:ims-ce
+    image: docker_kamailio
     container_name: icscf
     dns: ${DNS_IP}
     volumes:
-      - ./opensips_ims_icscf:/mnt/icscf
+      - ./icscf:/mnt/icscf
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
     environment:
       - COMPONENT_NAME=icscf
-    entrypoint: /mnt/icscf/icscf_init.sh
     depends_on:
       - dns
       - mysql
@@ -170,18 +170,17 @@ services:
       default:
         ipv4_address: ${ICSCF_IP}
   scscf:
-    image: opensips/opensips:ims-ce
+    image: docker_kamailio
     container_name: scscf
     dns: ${DNS_IP}
     volumes:
-      - ./opensips_ims_scscf:/mnt/scscf
+      - ./scscf:/mnt/scscf
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
     environment:
       - COMPONENT_NAME=scscf
-    entrypoint: /mnt/scscf/scscf_init.sh
     depends_on:
       - dns
       - mysql
@@ -195,14 +194,14 @@ services:
       default:
         ipv4_address: ${SCSCF_IP}
   pcscf:
-    image: opensips/opensips:ims-ce
+    image: docker_kamailio
     container_name: pcscf
     dns: ${DNS_IP}
     privileged: true
     cap_add:
       - NET_ADMIN
     volumes:
-      - ./opensips_ims_pcscf:/mnt/pcscf
+      - ./pcscf:/mnt/pcscf
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:
@@ -210,7 +209,6 @@ services:
     environment:
       - COMPONENT_NAME=pcscf
       - DEPLOY_MODE=4G
-    entrypoint: /mnt/pcscf/pcscf_init.sh
     depends_on:
       - dns
       - mysql
@@ -229,6 +227,7 @@ services:
     networks:
       default:
         ipv4_address: ${PCSCF_IP}
+
   smsc:
     image: docker_kamailio
     container_name: smsc
