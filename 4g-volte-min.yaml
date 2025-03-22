@@ -64,7 +64,7 @@ services:
       - "2123/udp"
       - "9091/tcp"
     ports:
-      - "36412:36412"
+      - "36412:36412/sctp"
     networks:
       default:
         ipv4_address: ${MME_IP}
