@@ -146,7 +146,6 @@ services:
       - "3875/tcp"
     ports:
       - "8080:8080/tcp"
-      - "3875:3875/tcp"
     networks:
       default:
         ipv4_address: ${PYHSS_IP}
