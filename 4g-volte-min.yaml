@@ -41,10 +41,6 @@ services:
     image: docker_open5gs
     depends_on:
       - hss
-      - sgwc
-      - sgwu
-      - smf
-      - upf
     container_name: mme
     env_file:
       - .env
