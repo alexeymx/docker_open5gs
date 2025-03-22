@@ -39,32 +39,6 @@ services:
 
 
 
-  hss:
-    image: docker_open5gs
-    container_name: hss
-    env_file:
-      - .env-min
-    environment:
-      - COMPONENT_NAME=hss
-    volumes:
-      - ./hss:/mnt/hss
-      - ./log:/open5gs/install/var/log/open5gs
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    depends_on:
-      - mongo
-    expose:
-      - "3868/udp"
-      - "3868/tcp"
-      - "3868/sctp"
-      - "5868/udp"
-      - "5868/tcp"
-      - "5868/sctp"
-    restart: unless-stopped
-    networks:
-      default:
-        ipv4_address: ${HSS_IP}
-
   dns:
     build: ./dns
     image: docker_dns
