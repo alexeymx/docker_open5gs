@@ -36,6 +36,41 @@ services:
     networks:
       default:
         ipv4_address: ${WEBUI_IP}
+
+  mme:
+    image: docker_open5gs
+    depends_on:
+      - hss
+      - sgwc
+      - sgwu
+      - smf
+      - upf
+    container_name: mme
+    env_file:
+      - .env
+    environment:
+      - COMPONENT_NAME=mme
+    volumes:
+      - ./mme:/mnt/mme
+      - ./log:/open5gs/install/var/log/open5gs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "3868/udp"
+      - "3868/tcp"
+      - "3868/sctp"
+      - "5868/udp"
+      - "5868/tcp"
+      - "5868/sctp"
+      - "36412/sctp"
+      - "2123/udp"
+      - "9091/tcp"
+    ports:
+      - "36412:36412"
+    networks:
+      default:
+        ipv4_address: ${MME_IP}
+
   hss:
     image: docker_open5gs
     container_name: hss
