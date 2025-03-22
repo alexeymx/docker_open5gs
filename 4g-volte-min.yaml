@@ -285,7 +285,7 @@ services:
 
   sgs:
     build: ./sgs
-    container_name: mme
+    container_name: sgs
     image: docker_sgs
     env_file:
       - .env-min
