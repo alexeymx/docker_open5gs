@@ -41,6 +41,8 @@ services:
     image: docker_open5gs
     depends_on:
       - hss
+      - sgs
+      - pyhss
     container_name: mme
     env_file:
       - .env
@@ -283,6 +285,7 @@ services:
 
   sgs:
     build: ./sgs
+    container_name: mme
     image: docker_sgs
     env_file:
       - .env-min
