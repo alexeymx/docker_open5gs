@@ -13,7 +13,8 @@ hss:
   OriginHost: "hss.IMS_DOMAIN"
 
   #Value to populate as the OriginRealm in Diameter responses
-  OriginRealm: "IMS_DOMAIN"
+  #OriginRealm: "IMS_DOMAIN"
+  OriginRealm: "EPC_DOMAIN"
 
   #Value to populate as the Product name in Diameter responses
   ProductName: "pyHSS"

@@ -56,6 +56,8 @@ INSTALL_PREFIX="/pyhss"
 sed -i 's|PYHSS_IP|'$PYHSS_IP'|g' ./config.yaml
 sed -i 's|PYHSS_BIND_PORT|'$PYHSS_BIND_PORT'|g' ./config.yaml
 sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' ./config.yaml
+sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' ./config.yaml
+
 sed -i 's|OP_MCC|'$MCC'|g' ./config.yaml
 sed -i 's|OP_MNC|'$MNC'|g' ./config.yaml
 sed -i 's|MYSQL_IP|'$MYSQL_IP'|g' ./config.yaml
