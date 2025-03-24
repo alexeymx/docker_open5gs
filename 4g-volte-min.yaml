@@ -284,6 +284,68 @@ services:
     networks:
       default:
         ipv4_address: ${GRAFANA_IP}
+
+  cgr-console:
+    image: dkr.cgrates.org/master/cgr-console:latest
+    container_name: cgr-console
+    dns: ${DNS_IP}
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env-min
+    environment:
+      - DOCKER_IP=${CGR_IP}
+    command: status
+    depends_on:
+      - cgrates
+    networks:
+      default:
+        ipv4_address: ${CGRATES_CONSOLE_IP}
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    env_file:
+      - .env-min
+    volumes:
+      - redis_data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+
+    expose:
+      - "6379/tcp"
+    ports:
+      - "6379:6379/tcp"
+
+    restart: unless-stopped
+    networks:
+      default:
+        ipv4_address: ${REDIS_IP}
+
+  cgrates:
+    image: dkr.cgrates.org/master/cgr-engine:latest
+    container_name: cgr-engine
+    dns: ${DNS_IP}
+    volumes:
+      - ./cgrates:/etc/cgrates
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env-min
+    depends_on:
+      - redis
+    environment:
+      - DOCKER_IP=${CGR_IP}
+      - REDIS_HOST=${REDIS_IP}
+    command: -config_path=/etc/cgrates -logger=*stdout
+    expose:
+      - "2012/tcp" #cgrates port
+      - "3868/tcp" #diameter port
+    networks:
+      default:
+        ipv4_address: ${CGRATES_IP}
+
 networks:
   default:
     ipam:
