@@ -285,23 +285,7 @@ services:
       default:
         ipv4_address: ${GRAFANA_IP}
 
-  cgr-console:
-    image: dkr.cgrates.org/master/cgr-console:latest
-    container_name: cgr-console
-    dns: ${DNS_IP}
-    volumes:
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    env_file:
-      - .env-min
-    environment:
-      - DOCKER_IP=${CGR_IP}
-    command: status
-    depends_on:
-      - cgrates
-    networks:
-      default:
-        ipv4_address: ${CGRATES_CONSOLE_IP}
+
 
   redis:
     image: redis:latest
@@ -323,6 +307,50 @@ services:
       default:
         ipv4_address: ${REDIS_IP}
 
+  aaa:
+    build:
+      context: ./aaa
+    container_name: aaa
+    volumes:
+      - easyrsa_pki:/etc/raddb/certs
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env-min
+    environment:
+      - PRIVATE_KEY_PASSWORD=${RADIUS_KEY_PASSWORD}
+      - PRIVATE_KEY=${RADIUS_PRIVATE_KEY}
+      - PRIVATE_CERT=${RADIUS_CERT}
+      - CA_CERT=${RADIUS_CA_CERT}
+      - DH_FILE=${RADIUS_DH_FILE}
+      - CLIENT_ADDRESS=${CLIENT_ADDRESS}
+      - CLIENT_SECRET=${CLIENT_SECRET}
+    expose:
+      - "1812/udp"
+      - "1813/udp"
+    ports:
+      - "1812:1812/udp"
+      - "1813:1813/udp"
+    networks:
+      default:
+        ipv4_address: ${FREERADIUS_IP}
+    depends_on:
+      - easyrsa
+
+  easyrsa:
+    build:
+      context: ./aaa/easyrsa
+    container_name: easyrsa
+    volumes:
+      - easyrsa_pki:/easyrsa/pki
+    environment:
+      - EASYRSA_REQ_COUNTRY=${EASYRSA_REQ_COUNTRY:-US}
+      - EASYRSA_REQ_PROVINCE=${EASYRSA_REQ_PROVINCE:-California}
+      - EASYRSA_REQ_CITY=${EASYRSA_REQ_CITY:-San Francisco}
+      - EASYRSA_REQ_ORG=${EASYRSA_REQ_ORG:-Example Org}
+      - EASYRSA_REQ_EMAIL=${EASYRSA_REQ_EMAIL:-admin@example.org}
+      - EASYRSA_REQ_OU=${EASYRSA_REQ_OU:-IT}
+
   cgrates:
     image: dkr.cgrates.org/master/cgr-engine:latest
     container_name: cgr-engine
@@ -336,7 +364,7 @@ services:
     depends_on:
       - redis
     environment:
-      - DOCKER_IP=${CGR_IP}
+      - DOCKER_IP=${CGRATES_IP}
       - REDIS_HOST=${REDIS_IP}
     command: -config_path=/etc/cgrates -logger=*stdout
     expose:
@@ -356,3 +384,6 @@ volumes:
     name: grafana_data
   mongodbdata: {}
   dbdata: {}
+  redis_data: {}
+  easyrsa_pki:
+    driver: local
