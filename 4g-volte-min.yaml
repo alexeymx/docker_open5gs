@@ -54,6 +54,7 @@ services:
     networks:
       default:
         ipv4_address: ${DNS_IP}
+
   rtpengine:
     build: ./rtpengine
     image: docker_rtpengine
@@ -79,6 +80,9 @@ services:
     expose:
       - "2223/udp"
       - "49000-50000/udp"
+    ports:
+      - "2223:2223/udp"
+      - "49000-50000:49000-50000/udp"
 
     networks:
       default:
