@@ -17,8 +17,7 @@ var server = diameter.createServer(options, function(socket) {
                   ['Result-Code', 'DIAMETER_SUCCESS'],
                   ['Origin-Host', 'ocs.epc.mnc001.mcc001.3gppnetwork.org'],
                   ['Origin-Realm', 'epc.mnc001.mcc001.3gppnetwork.org'],
-                  ['Host-IP-Address', '2001:db8:3312::1'],
-                  ['Host-IP-Address', '1.2.3.4'],
+                  ['Host-IP-Address', '127.0.0.1'],
                   ['Vendor-Id', 0],  // 3GPP Vendor ID
                   ['Product-Name', 'node-diameter'],
                   ['Supported-Vendor-Id', 10415],  // Declare 3GPP support
