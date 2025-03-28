@@ -12,7 +12,7 @@ openssl req  -new -batch -x509 -days 3650 -nodes -newkey rsa:1024 -out /etc/open
 
 #mme
 openssl genrsa -out /etc/open5gs/tls/mme.key.pem 1024
-openssl req -new -batch -out mme.csr.pem -key /etc/open5gs/tls/mme.key.pem -subj /CN=mme.epc.mnc334.mcc230.3gppnetwork.org/C=KO/ST=Seoul/L=Nowon/O=Open5GS/OU=Tests
+openssl req -new -batch -out mme.csr.pem -key /etc/open5gs/tls/mme.key.pem -subj /CN=mme.epc.mnc230.mcc334.3gppnetwork.org/C=KO/ST=Seoul/L=Nowon/O=Open5GS/OU=Tests
 openssl ca -cert /etc/open5gs/tls/cacert.pem -days 3650 -keyfile cakey.pem -in mme.csr.pem -out /etc/open5gs/tls/mme.cert.pem -outdir . -batch
 
 rm -rf demoCA
