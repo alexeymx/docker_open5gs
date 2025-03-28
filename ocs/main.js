@@ -12,6 +12,7 @@ var options = {
 
 var server = diameter.createServer(options, function(socket) {
     socket.on('diameterMessage', function(event) {
+        console.log('Got message: ' + JSON.stringify(event.message));
         if (event.message.command === 'Capabilities-Exchange') {
             event.response.body = event.response.body.concat([
                   ['Result-Code', 'DIAMETER_SUCCESS'],
@@ -70,7 +71,7 @@ var server = diameter.createServer(options, function(socket) {
         }
 
         // Example server initiated message
-        setTimeout(function() {
+        /*setTimeout(function() {
             console.log('Sending server initiated message');
             var connection = socket.diameterConnection;
             var request = connection.createRequest('Diameter Common Messages', 'Capabilities-Exchange');
@@ -87,7 +88,7 @@ var server = diameter.createServer(options, function(socket) {
     		}, function(error) {
     			console.log('Error sending request: ' + error);
     		});
-        }, 2000);
+        }, 2000); */
     });
 
     socket.on('end', function() {
