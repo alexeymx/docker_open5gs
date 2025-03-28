@@ -1,43 +1,4 @@
 services:
-  mongo:
-    image: mongo:6.0
-    container_name: mongo
-    command: --bind_ip 0.0.0.0
-    env_file:
-      - .env-min
-    volumes:
-      - mongodbdata:/data/db
-      - mongodbdata:/data/configdb
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    expose:
-      - "27017/udp"
-      - "27017/tcp"
-    networks:
-      default:
-        ipv4_address: ${MONGO_IP}
-  webui:
-    image: docker_open5gs
-    container_name: webui
-    depends_on:
-      - mongo
-    env_file:
-      - .env-min
-    environment:
-      - COMPONENT_NAME=webui
-    volumes:
-      - ./webui:/mnt/webui
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    expose:
-      - "9999/tcp"
-    ports:
-      - "9999:9999/tcp"
-    networks:
-      default:
-        ipv4_address: ${WEBUI_IP}
-
-
 
   dns:
     build: ./dns
@@ -338,6 +299,7 @@ services:
       - easyrsa_pki:/easyrsa/pki
 
   cgrates:
+    platform: linux/amd64
     image: dkr.cgrates.org/master/cgr-engine:latest
     container_name: cgr-engine
     dns: ${DNS_IP}
@@ -368,7 +330,6 @@ networks:
 volumes:
   grafana_data:
     name: grafana_data
-  mongodbdata: {}
   dbdata: {}
   redis_data: {}
   easyrsa_pki:
