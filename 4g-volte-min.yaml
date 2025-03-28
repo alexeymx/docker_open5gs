@@ -300,27 +300,56 @@ services:
 
   cgrates:
     platform: linux/amd64
-    image: dkr.cgrates.org/master/cgr-engine:latest
+    build:
+      context: ./cgrates
+      dockerfile: Dockerfile
     container_name: cgr-engine
     dns: ${DNS_IP}
     volumes:
-      - ./cgrates:/etc/cgrates
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
+      - ./cgrates_config:/etc/cgrates
+      - ./init_scripts:/init_scripts
     env_file:
       - .env-min
     depends_on:
       - redis
+      - postgres
     environment:
       - DOCKER_IP=${CGRATES_IP}
       - REDIS_HOST=${REDIS_IP}
-    command: -config_path=/etc/cgrates -logger=*stdout
+      - DB_BACKEND=postgresql
+      - DB_HOST=cgrates_postgres
+      - DB_PORT=5432
+      - DB_USER=cgrates
+      - DB_PASSWORD=securepassword
+      - DB_NAME=cgrates
+      - REDIS_PORT=6379
     expose:
       - "2012/tcp" #cgrates port
       - "3868/tcp" #diameter port
+      - "2080/tcp"
     networks:
       default:
         ipv4_address: ${CGRATES_IP}
+
+  postgres:
+    image: postgres:15
+    container_name: cgrates_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: cgrates
+      POSTGRES_PASSWORD: securepassword
+      POSTGRES_DB: cgrates
+    expose:
+      - "5432/tcp"
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data # Persistent storage
+    networks:
+      default:
+        ipv4_address: ${POSTGRES_IP}
+
 
 networks:
   default:
@@ -333,4 +362,6 @@ volumes:
   dbdata: {}
   redis_data: {}
   easyrsa_pki:
+    driver: local
+  postgres_data:
     driver: local
