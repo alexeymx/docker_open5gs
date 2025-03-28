@@ -1,15 +1,22 @@
-FROM dkr.cgrates.org/master/cgr-engine:latest
+FROM ubuntu:22.04
 
-# Install PostgreSQL client
-RUN apt-get update && apt-get install -y postgresql-client && rm -rf /var/lib/apt/lists/*
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    postgresql-client \
+    curl \
+    git \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy initialization scripts
-COPY init_scripts /init_scripts
-RUN chmod +x /init_scripts/*.sh
+# Clone and install CGRateS
+RUN git clone https://github.com/cgrates/cgrates.git /opt/cgrates \
+    && cd /opt/cgrates \
+    && make
 
-# Create entrypoint script
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+# Set working directory
+WORKDIR /opt/cgrates
 
-ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["/usr/bin/cgr-engine", "-config_path", "/etc/cgrates", "-logger", "*stdout"]
+# Expose necessary ports
+EXPOSE 2012 2013 2080
+
+# Start CGRateS
+CMD ["./cgr-engine"]
