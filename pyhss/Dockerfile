@@ -53,9 +53,8 @@ RUN curl -fsSL https://packages.redis.io/gpg | gpg --dearmor -o /usr/share/keyri
     apt-get install -y --no-install-recommends redis
 
 # Get pyhss code and install
-RUN git clone https://github.com/alexeymx/pyhss \
-
-RUN cd pyhss && pip3 install -r requirements.txt
+RUN git clone https://github.com/alexeymx/pyhss && \
+    pip3 install -r pyhss/requirements.txt
 
 RUN mkdir -p /pyhss/log/
 
