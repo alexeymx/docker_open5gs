@@ -317,14 +317,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env-min
-    environment:
-      - PRIVATE_KEY_PASSWORD=${RADIUS_KEY_PASSWORD}
-      - PRIVATE_KEY=${RADIUS_PRIVATE_KEY}
-      - PRIVATE_CERT=${RADIUS_CERT}
-      - CA_CERT=${RADIUS_CA_CERT}
-      - DH_FILE=${RADIUS_DH_FILE}
-      - CLIENT_ADDRESS=${CLIENT_ADDRESS}
-      - CLIENT_SECRET=${CLIENT_SECRET}
+
     expose:
       - "1812/udp"
       - "1813/udp"
@@ -343,13 +336,6 @@ services:
     container_name: easyrsa
     volumes:
       - easyrsa_pki:/easyrsa/pki
-    environment:
-      - EASYRSA_REQ_COUNTRY=${EASYRSA_REQ_COUNTRY:-US}
-      - EASYRSA_REQ_PROVINCE=${EASYRSA_REQ_PROVINCE:-California}
-      - EASYRSA_REQ_CITY=${EASYRSA_REQ_CITY:-San Francisco}
-      - EASYRSA_REQ_ORG=${EASYRSA_REQ_ORG:-Example Org}
-      - EASYRSA_REQ_EMAIL=${EASYRSA_REQ_EMAIL:-admin@example.org}
-      - EASYRSA_REQ_OU=${EASYRSA_REQ_OU:-IT}
 
   cgrates:
     image: dkr.cgrates.org/master/cgr-engine:latest
