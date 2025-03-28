@@ -80,6 +80,7 @@ services:
 
     expose:
       - "2223/udp"
+      - "49000-50000/udp"
 
     networks:
       default:
