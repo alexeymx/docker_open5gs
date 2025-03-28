@@ -77,12 +77,9 @@ services:
       - PORT_MIN=49000
       - NO_FALLBACK=no
       - TOS=184
+
     expose:
       - "2223/udp"
-      - "49000-50000/udp"
-    ports:
-      - "2223:2223/udp"
-      - "49000-50000:49000-50000/udp"
 
     networks:
       default:
