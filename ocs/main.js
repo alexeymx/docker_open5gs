@@ -15,19 +15,21 @@ var server = diameter.createServer(options, function(socket) {
         console.log('Got message: ' + JSON.stringify(event.message));
         if (event.message.command === 'Capabilities-Exchange') {
             event.response.body = event.response.body.concat([
-                  ['Result-Code', 'DIAMETER_SUCCESS'],
-                  ['Origin-Host', 'ocs.epc.mnc001.mcc001.3gppnetwork.org'],
-                  ['Origin-Realm', 'epc.mnc001.mcc001.3gppnetwork.org'],
-                  ['Host-IP-Address', '127.0.0.1'],
-                  ['Vendor-Id', 0],  // 3GPP Vendor ID
-                  ['Product-Name', 'node-diameter'],
-                  ['Supported-Vendor-Id', 10415],  // Declare 3GPP support
-                  ['Auth-Application-Id', 4],  // Diameter Credit-Control (Gy)
-                  ['Vendor-Specific-Application-Id', [
-                      ['Vendor-Id', 10415],
-                      ['Auth-Application-Id', 16777225]
-                  ]],
-                  ['Firmware-Revision', 10201]  // Optional but common
+                    ['Result-Code', 'DIAMETER_SUCCESS'],  // Success response
+                    ['Origin-Host', 'ocs.epc.mnc001.mcc001.3gppnetwork.org'],
+                    ['Origin-Realm', 'epc.mnc001.mcc001.3gppnetwork.org'],
+                    ['Host-IP-Address', '127.0.0.1'],  // IP address of this node
+                    ['Vendor-Id', 10415],  // 3GPP Vendor ID (not 0)
+                    ['Product-Name', 'node-diameter'],  // Software name
+                    ['Firmware-Revision', 10201],  // Version info
+                    ['Inband-Security-Id', 'NO_INBAND_SECURITY'],  // Security mode
+                    ['Supported-Vendor-Id', 10415],  // Declares support for 3GPP
+                    ['Auth-Application-Id', 0],  // Common Diameter support
+                    ['Auth-Application-Id', 16777238],  // **Correct Gy Application ID**
+                    ['Vendor-Specific-Application-Id', [
+                        ['Vendor-Id', 10415],
+                        ['Auth-Application-Id', 16777238]  // Gy (Online Charging)
+                    ]]
             ]);
             event.callback(event.response);
         } else if (event.message.command === 'Credit-Control') {
