@@ -34,8 +34,8 @@ generate_cert() {
 }
 
 # Step 2: Generate Certificates for MME and SMF
-generate_cert "mme" "epc.mnc230.mcc334.3gppnetwork.org"
-generate_cert "smf" "epc.mnc230.mcc334.3gppnetwork.org"
+generate_cert "mme" "epc.mnc001.mcc001.3gppnetwork.org"
+generate_cert "smf" "epc.mnc001.mcc001.3gppnetwork.org"
 
 # Step 3: Cleanup
 rm -rf demoCA
