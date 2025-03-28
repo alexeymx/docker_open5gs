@@ -24,7 +24,9 @@ var server = diameter.createServer(options, function(socket) {
                     ['Firmware-Revision', 10201],  // Version info
                     ['Inband-Security-Id', 'NO_INBAND_SECURITY'],  // Security mode
                     ['Supported-Vendor-Id', 10415],  // Declares support for 3GPP
+                    ['Auth-Application-Id', 0],  // Common Diameter support
                     ['Auth-Application-Id', 'Diameter Credit Control Application'],  // Common Diameter support
+                    ['Origin-State-Id', Math.floor(Date.now() / 1000)],
                     ['Vendor-Specific-Application-Id', [
                         ['Vendor-Id', 10415],
                         ['Auth-Application-Id', 16777238]  // Gy (Online Charging)
