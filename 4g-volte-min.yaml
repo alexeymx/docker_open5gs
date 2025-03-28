@@ -106,8 +106,6 @@ services:
     volumes:
       - ./pyhss:/mnt/pyhss
       - ./pyhss/logs:/pyhss/log/
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env-min
     depends_on:
