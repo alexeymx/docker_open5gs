@@ -97,17 +97,14 @@ spec:
             memory: "1Gi"
             cpu: "500m"
         volumeMounts:
-        - name: mme-config-volume
-          mountPath: /etc/open5gs
+
         - name: mme-files-volume
           mountPath: /mnt/mme
       volumes:
-      - name: mme-config-volume
-        configMap:
-          name: mme-config-files
+
       - name: mme-files-volume
         configMap:
-          name: mme-files
+          name: mme-config-files
   volumeClaimTemplates:
   - metadata:
       name: mme-data
