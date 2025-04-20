@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mme-config
+  namespace: epc-dev
+data:
+  mnc: "01"
+  mcc: "001"
+  mme_ip: "mme-service"
+  hss_ip: "hss-service"
+  sgs_ip: "sgs-service"
+  epc_domain: "epc.local"
+  smf_ip: "smf-service"
+  sgwc_ip: "sgwc-service"
+  osmomsc_ip: "osmomsc-service"

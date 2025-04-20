@@ -1,0 +1,114 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mme
+  labels:
+    app: mme
+  namespace: epc-prod
+spec:
+  serviceName: "mme"
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mme
+  template:
+    metadata:
+      labels:
+        app: mme
+    spec:
+      containers:
+      - name: mme
+        image: us-central1-docker.pkg.dev/v3-vinoc/epc-core/open5gs-core-dev:latest
+        ports:
+        - containerPort: 36412
+          name: s1ap-tcp
+          protocol: TCP
+        - containerPort: 36412
+          name: s1ap-sctp
+          protocol: SCTP
+        - containerPort: 9091
+          name: metrics
+          protocol: TCP
+        - containerPort: 3868
+          name: s6a-tcp
+          protocol: TCP
+        - containerPort: 3868
+          name: s6a-sctp
+          protocol: SCTP
+        - containerPort: 5868
+          name: sgs-tcp
+          protocol: TCP
+        - containerPort: 5868
+          name: sgs-sctp
+          protocol: SCTP
+        env:
+        - name: COMPONENT_NAME
+          value: 'mme'
+        - name: MNC
+          valueFrom:
+            configMapKeyRef:
+              name: mme-config
+              key: mnc
+        - name: MCC
+          valueFrom:
+            configMapKeyRef:
+              name: mme-config
+              key: mcc
+        - name: MME_IP
+          valueFrom:
+            configMapKeyRef:
+              name: mme-config
+              key: mme_ip
+        - name: HSS_IP
+          valueFrom:
+            configMapKeyRef:
+              name: mme-config
+              key: hss_ip
+        - name: SGS_IP
+          valueFrom:
+            configMapKeyRef:
+              name: mme-config
+              key: sgs_ip
+        - name: EPC_DOMAIN
+          valueFrom:
+            configMapKeyRef:
+              name: mme-config
+              key: epc_domain
+        - name: SMF_IP
+          valueFrom:
+            configMapKeyRef:
+              name: mme-config
+              key: smf_ip
+        - name: SGWC_IP
+          valueFrom:
+            configMapKeyRef:
+              name: mme-config
+              key: sgwc_ip
+        - name: OSMOMSC_IP
+          valueFrom:
+            configMapKeyRef:
+              name: mme-config
+              key: osmomsc_ip
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        volumeMounts:
+        - name: mme-config-volume
+          mountPath: /etc/open5gs
+      volumes:
+      - name: mme-config-volume
+        configMap:
+          name: mme-config-files
+  volumeClaimTemplates:
+  - metadata:
+      name: mme-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: standard
+      resources:
+        requests:
+          storage: 1Gi

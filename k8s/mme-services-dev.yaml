@@ -1,0 +1,88 @@
+---
+# Service 1: LoadBalancer for S1AP interface (port 36412 TCP/SCTP)
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: epc-dev
+  name: mme-s1ap
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"  # Use Network Load Balancer for SCTP support
+    service.beta.kubernetes.io/aws-load-balancer-additional-resource-tags: "Environment=prod"
+spec:
+  selector:
+    app: mme
+  ports:
+  - name: s1ap-tcp
+    protocol: TCP
+    port: 36412
+    targetPort: 36412
+  - name: s1ap-sctp
+    protocol: SCTP
+    port: 36412
+    targetPort: 36412
+  type: LoadBalancer
+---
+# Service 2: ClusterIP for Metrics (port 9091)
+apiVersion: v1
+kind: Service
+metadata:
+  name: mme-metrics
+  namespace: epc-dev
+
+spec:
+  selector:
+    app: mme
+  ports:
+  - name: metrics
+    protocol: TCP
+    port: 9091
+    targetPort: 9091
+  type: ClusterIP
+---
+# Service 3: LoadBalancer for S6A interface (port 3868 TCP/SCTP)
+apiVersion: v1
+kind: Service
+metadata:
+  name: mme-s6a
+  namespace: epc-dev
+
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-additional-resource-tags: "Environment=prod"
+spec:
+  selector:
+    app: mme
+  ports:
+  - name: s6a-tcp
+    protocol: TCP
+    port: 3868
+    targetPort: 3868
+  - name: s6a-sctp
+    protocol: SCTP
+    port: 3868
+    targetPort: 3868
+  type: LoadBalancer
+---
+# Service 4: LoadBalancer for SGS interface (port 5868 TCP/SCTP)
+apiVersion: v1
+kind: Service
+metadata:
+  name: mme-sgs
+  namespace: epc-dev
+
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-additional-resource-tags: "Environment=prod"
+spec:
+  selector:
+    app: mme
+  ports:
+  - name: sgs-tcp
+    protocol: TCP
+    port: 5868
+    targetPort: 5868
+  - name: sgs-sctp
+    protocol: SCTP
+    port: 5868
+    targetPort: 5868
+  type: LoadBalancer
