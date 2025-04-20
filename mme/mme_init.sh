@@ -31,9 +31,9 @@ export IF_NAME=$(ip r | awk '/default/ { print $5 }')
 
 [ ${#MNC} == 3 ] && EPC_DOMAIN="epc.mnc${MNC}.mcc${MCC}.3gppnetwork.org" || EPC_DOMAIN="epc.mnc0${MNC}.mcc${MCC}.3gppnetwork.org"
 
-cp /mnt/mme/mme.yaml install/etc/open5gs
-cp /mnt/mme/mme.conf install/etc/freeDiameter
-cp /mnt/mme/make_certs.sh install/etc/freeDiameter
+cp /mnt/mme/mme.yaml /etc/open5gs
+cp /mnt/mme/mme.conf /etc/freeDiameter
+cp /mnt/mme/make_certs.sh /etc/freeDiameter
 
 sed -i 's|MNC|'$MNC'|g' install/etc/open5gs/mme.yaml
 sed -i 's|MCC|'$MCC'|g' install/etc/open5gs/mme.yaml
@@ -57,7 +57,7 @@ sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' install/etc/freeDiameter/make_certs.sh
 
 
 # Generate TLS certificates
-./install/etc/freeDiameter/make_certs.sh install/etc/freeDiameter
+./etc/freeDiameter/make_certs.sh /etc/freeDiameter
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
