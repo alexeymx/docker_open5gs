@@ -17,8 +17,6 @@ class CGRateS:
 
     def SendData(self, json):
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-        print("Sending Request with Body:")
-        print(json)
         r = requests.post("http://" + str(self.host) + ":" + str(self.port) + "/jsonrpc", json=json, headers=headers)
         if r.status_code != 200:
             print("Got error code " + str(r.status_code) + " back")
