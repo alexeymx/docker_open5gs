@@ -22,15 +22,15 @@ else
 fi
 
 
-gcloud auth activate-service-account --key-file=../../service-account.json
-gcloud auth configure-docker us-central1-docker.pkg.dev
+#gcloud auth activate-service-account --key-file=../../service-account.json
+#gcloud auth configure-docker us-central1-docker.pkg.dev
 
-docker build --no-cache --force-rm -t $IMAGE_PATH/$CONTAINER_NAME:$TAG -f $DOCKERFILE .
-docker push $IMAGE_PATH/$CONTAINER_NAME:$TAG
+#docker build --no-cache --force-rm -t $IMAGE_PATH/$CONTAINER_NAME:$TAG -f $DOCKERFILE .
+#docker push $IMAGE_PATH/$CONTAINER_NAME:$TAG
 
 
-echo "Pushed MME image: $IMAGE_PATH/$CONTAINER_NAME:$TAG"
-kubectl -n $NAMESPACE set image statefulset/mme mme=$IMAGE_PATH/$CONTAINER_NAME:$TAG
+#echo "Pushed MME image: $IMAGE_PATH/$CONTAINER_NAME:$TAG"
+kubectl -n $NAMESPACE set image statefulset/mme mme=us-central1-docker.pkg.dev/v3-vinoc/epc-core/open5gs-core-dev:latest
 
 kubectl -n $NAMESPACE rollout restart statefulset/mme
 
