@@ -7,6 +7,9 @@ RUN mkdir -p /etc/open5gs /etc/freeDiameter /mnt/mme
 COPY mme.yaml /etc/open5gs/
 COPY mme.conf /etc/freeDiameter/
 
+COPY mme.yaml /etc/open5gs/
+
+
 COPY make_certs.sh /etc/freeDiameter/make_certs.sh
 # Set permissions
 RUN chmod -R 644 /etc/open5gs/*.yaml \
