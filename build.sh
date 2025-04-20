@@ -28,7 +28,7 @@ else
 fi
 
 
-gcloud auth activate-service-account --key-file=service-account.json
+gcloud auth activate-service-account --key-file=../service-account.json
 gcloud auth configure-docker us-central1-docker.pkg.dev
 
 cd base
