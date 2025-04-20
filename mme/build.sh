@@ -30,3 +30,9 @@ docker push $IMAGE_PATH/$CONTAINER_NAME:$TAG
 
 
 echo "Pushed MME image: $IMAGE_PATH/$CONTAINER_NAME:$TAG"
+kubectl -n $NAMESPACE set image statefulset/mme mme=$IMAGE_PATH/$CONTAINER_NAME:$TAG
+
+kubectl -n $NAMESPACE rollout restart statefulset/mme
+
+# Verify the update and rollout status
+kubectl -n $NAMESPACE rollout status statefulset/mme
